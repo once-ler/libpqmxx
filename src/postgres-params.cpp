@@ -147,6 +147,10 @@ namespace db {
       if (sz[0] == '\0' && settings_.emptyStringAsNull) {
         bind(nullptr);
       }
+      else if (sz[0] == '\u0001') {
+        sz++;
+        bind(JSONBOID, (char *)sz, std::strlen(sz)) - 1;
+      } 
       else {
         bind(VARCHAROID, (char *)sz, std::strlen(sz));
       }
@@ -155,6 +159,10 @@ namespace db {
     void Params::bind(const std::string &s) {
       if (s.length() == 0 && settings_.emptyStringAsNull) {
         bind(nullptr);
+      }
+      else if (s.length() > 0 && s.at(0) == '\u0001') {
+        s.erase(0, 1);
+        bind(JSONBOID, (char *)s.c_str(), s.length());
       }
       else {
         bind(VARCHAROID, (char *)s.c_str(), s.length());

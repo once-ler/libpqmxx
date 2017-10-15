@@ -289,5 +289,8 @@ namespace db {
      **/
     bool isSingleStatement(const char *sql) noexcept;
 
+    std::string toJsonb(const std::string& input) {
+      return move(input.insert(0, 1, '\u0001'));
+    }
   } // namespace postgres  
 }   // namespace db
