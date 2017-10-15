@@ -149,7 +149,7 @@ namespace db {
       }
       else if (sz[0] == '\u0001') {
         sz++;
-        bind(JSONBOID, (char *)sz, std::strlen(sz)) - 1;
+        bind(JSONBOID, (char *)sz, std::strlen(sz) - 1);
       } 
       else {
         bind(VARCHAROID, (char *)sz, std::strlen(sz));
@@ -161,8 +161,10 @@ namespace db {
         bind(nullptr);
       }
       else if (s.length() > 0 && s.at(0) == '\u0001') {
-        s.erase(0, 1);
-        bind(JSONBOID, (char *)s.c_str(), s.length());
+        std::string copy_s;
+        copy_s.reserve(s.size() - 1);
+        copy_s.copy(const_cast<char*>(s.c_str()), s.size() - 1, 1);
+        bind(JSONBOID, (char *)copy_s.c_str(), copy_s.length());
       }
       else {
         bind(VARCHAROID, (char *)s.c_str(), s.length());
