@@ -31,7 +31,7 @@ int main() {
   Connection cnx;
   try {
     cnx.connect("postgresql://ci-test@localhost");
-
+    
     cnx.execute(R"SQL(
 
       DROP TABLE IF EXISTS employees;

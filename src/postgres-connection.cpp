@@ -247,6 +247,14 @@ namespace db {
       return true;
     }
 
+    std::string toJsonb(const std::string& input) noexcept {
+      std::vector<char> v(input.length() + 1);
+      std::copy(input.c_str(), input.c_str() + input.length(), v.begin() + 1);
+      v[0] = char(1);
+      std::string copy_s{ v.begin(), v.end() };
+      return std::move(copy_s);
+    }
+
     // -------------------------------------------------------------------------
     // Constructor.
     // -------------------------------------------------------------------------

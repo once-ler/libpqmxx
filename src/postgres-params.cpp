@@ -147,9 +147,8 @@ namespace db {
       if (sz[0] == '\0' && settings_.emptyStringAsNull) {
         bind(nullptr);
       }
-      else if (sz[0] == '\u0001') {
-        sz++;
-        bind(JSONBOID, (char *)sz, std::strlen(sz) - 1);
+      else if (sz[0] == '\1') {
+        bind(JSONBOID, (char *)sz, std::strlen(sz));
       } 
       else {
         bind(VARCHAROID, (char *)sz, std::strlen(sz));
@@ -160,11 +159,15 @@ namespace db {
       if (s.length() == 0 && settings_.emptyStringAsNull) {
         bind(nullptr);
       }
-      else if (s.length() > 0 && s.at(0) == '\u0001') {
-        std::string copy_s;
-        copy_s.reserve(s.size() - 1);
-        copy_s.copy(const_cast<char*>(s.c_str()), s.size() - 1, 1);
-        bind(JSONBOID, (char *)copy_s.c_str(), copy_s.length());
+      else if (s.length() > 0 && int(s.at(0)) == 1) {
+        /* jsonb type recv function
+        *
+        * The type is sent as text in binary mode, so this is almost the same
+        * as the input function, but it's prefixed with a version number so we
+        * can change the binary format sent in future if necessary.For now,
+        * only version 1 is supported.
+        */
+        bind(JSONBOID, (char *)s.c_str(), s.length());
       }
       else {
         bind(VARCHAROID, (char *)s.c_str(), s.length());

@@ -289,12 +289,6 @@ namespace db {
      **/
     bool isSingleStatement(const char *sql) noexcept;
 
-    std::string toJsonb(const std::string& input) {
-      std::string copy_s;
-      copy_s.reserve(input.size() + 1);
-      copy_s.copy(const_cast<char*>(input.c_str()), input.size(), 1);
-      copy_s[0] = '\u0001';
-      return std::move(copy_s);
-    }
+    std::string toJsonb(const std::string& input) noexcept;
   } // namespace postgres  
 }   // namespace db
