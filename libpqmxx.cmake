@@ -28,4 +28,7 @@ file(GLOB LIBPQMXX_INCLUDE_FILES ${LIBPQMXX_INCLUDE_DIRS}/*.h)
 source_group("Header Files" FILES ${LIBPQMXX_INCLUDE_FILES})
 
 # Add the library to the project
-add_library(${LIBPQMXX_LIBRARIES} STATIC ${LIBPQMXX_SOURCE_FILES} ${LIBPQMXX_INCLUDE_FILES})
+add_library(${LIBPQMXX_LIBRARIES} SHARED ${LIBPQMXX_SOURCE_FILES} ${LIBPQMXX_INCLUDE_FILES})
+
+install(TARGETS libpqmxx  DESTINATION lib)
+# Make sure to run sudo ldconfig after installation
