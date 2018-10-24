@@ -4,6 +4,7 @@ project (postgres-test)
 # C++ standard 11
 set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
+set(CMAKE_CXX_FLAGS "-v")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(CMAKE_XCODE_ATTRIBUTE_ENABLE_TESTABILITY "YES")
@@ -14,6 +15,10 @@ if(MSVC)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:msvcrt.lib")
 elseif (CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+endif()
+
+if(MINGW OR CYGWIN)
+  add_definitions(-O3)
 endif()
 
 # Configure Googletest

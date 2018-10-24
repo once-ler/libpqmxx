@@ -30,5 +30,9 @@ source_group("Header Files" FILES ${LIBPQMXX_INCLUDE_FILES})
 # Add the library to the project
 add_library(${LIBPQMXX_LIBRARIES} SHARED ${LIBPQMXX_SOURCE_FILES} ${LIBPQMXX_INCLUDE_FILES})
 
+if(MINGW OR CYGWIN)
+  target_link_libraries(${LIBPQMXX_LIBRARIES} ${PostgreSQL_LIBRARIES})
+endif()
+
 install(TARGETS libpqmxx  DESTINATION lib)
 # Make sure to run sudo ldconfig after installation

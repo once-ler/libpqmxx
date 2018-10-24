@@ -52,7 +52,7 @@
                              (((uint64_t)(x) << 24) & 0x0000FF0000000000) | \
                              (((uint64_t)(x) << 40) & 0x00FF000000000000) | \
                              (((uint64_t)(x) << 56) & 0xFF00000000000000)))
-#ifdef __linux__
+#if defined (__linux__) || defined (__CYGWIN__)
   #include <endian.h>
   #if __BYTE_ORDER == __LITTLE_ENDIAN
     #define IS_LITTLE_ENDIAN true
