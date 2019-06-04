@@ -490,6 +490,11 @@ namespace db {
             // All results of the previous query have not been processed, we
             // need to cancel it.
             conn_.cancel();
+
+            // Must read until null pointer is reached.
+            while (pgresult_ != nullptr) {
+              pgresult_ = PQgetResult(conn_);  
+            }
           }
           else if (status_ == PGRES_TUPLES_OK) {
             PQclear(pgresult_);
