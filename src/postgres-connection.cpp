@@ -284,6 +284,10 @@ namespace db {
         throw ConnectionException(std::string(PQerrorMessage(pgconn_)));
       }
 
+      // Disable NOTICE's.
+      PQsetNoticeReceiver(pgconn_, NULL, NULL);
+      PQsetNoticeProcessor(pgconn_, NULL, NULL);
+      
       return *this;
     }
     
