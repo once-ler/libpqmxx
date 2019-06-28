@@ -255,6 +255,9 @@ namespace db {
       return std::move(copy_s);
     }
 
+    // Define a dummy NOTICE message handler.
+    static void noOpReceiver(void* arg, const PGresult* res) {};
+
     // -------------------------------------------------------------------------
     // Constructor.
     // -------------------------------------------------------------------------
@@ -285,8 +288,7 @@ namespace db {
       }
 
       // Disable NOTICE's.
-      PQsetNoticeReceiver(pgconn_, NULL, NULL);
-      PQsetNoticeProcessor(pgconn_, NULL, NULL);
+      PQsetNoticeReceiver(pgconn_, noOpReceiver, NULL);
       
       return *this;
     }
